@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Colorful Interactive Web</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Ubuntu', sans-serif;
+      background: linear-gradient(to bottom, #fdfbfb, #ebedee);
+      padding: 20px;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #fc466b, #3f5efb);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffe53b, #ff2525);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    section {
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 30px;
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-4px);
+    }
+
+    section:nth-child(2) {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+    }
+
+    section:nth-child(3) {
+      background: linear-gradient(to right, #00b09b, #96c93d);
+    }
+
+    section:nth-child(4) {
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+    }
+
+    section:nth-child(5) {
+      background: linear-gradient(to right, #f7971e, #ffd200);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    button {
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      color: white;
+      padding: 12px 24px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 106, 0, 0.5);
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 106, 0, 0.8);
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌈 Interactive Colorful Web Page</h1>
+    <p>✨ Responsive • Fun • Engaging • JavaScript-Powered</p>
+  </header>
+
+  <section>
+    <h2>📱 Responsive Design</h2>
+    <p>This vibrant webpage automatically adjusts its layout to fit desktop, tablet, and mobile screens. Resize your browser to see the magic of media queries in action!</p>
+  </section>
+
+  <section>
+    <h2>🧠 JavaScript Quiz</h2>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Submit Quiz</button>
+    <p id="quizResult" style="margin-top:10px;"></p>
+  </section>
+
+  <section>
+    <h2>😂 Joke Generator</h2>
+    <p>Need a laugh? Click the button below to get a random joke from the internet!</p>
+    <button onclick="getJoke()">Tell Me a Joke</button>
+    <p id="jokeText" style="margin-top:10px;"></p>
+  </section>
+
+  <section>
+    <h2>💬 Motivation Generator</h2>
+    <p>Feeling stuck? Click to get a motivational quote to spark your day.</p>
+    <button onclick="getQuote()">Inspire Me</button>
+    <p id="quoteText" style="margin-top:10px;"></p>
+  </section>
+
+  <script>
+    // Quiz Data
+    const quizData = [
+      {
+        question: "🌐 What does HTML stand for?",
+        options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+        answer: 0
+      },
+      {
+        question: "🎨 What does CSS stand for?",
+        options: ["Creative Style Sheets", "Cascading Style Sheets", "Computer Style Sheets"],
+        answer: 1
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    quizData.forEach((q, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.innerHTML = `<p><strong>${q.question}</strong></p>`;
+      q.options.forEach((opt, i) => {
+        questionDiv.innerHTML += `
+          <label>
+            <input type="radio" name="q${index}" value="${i}"> ${opt}
+          </label><br>`;
+      });
+      quizContainer.appendChild(questionDiv);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && parseInt(selected.value) === q.answer) {
+          score++;
+        }
+      });
+      document.getElementById("quizResult").textContent = `🎯 You scored ${score}/${quizData.length}`;
+    }
+
+    function getJoke() {
+      fetch("https://official-joke-api.appspot.com/jokes/random")
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("jokeText").textContent = `${data.setup} — ${data.punchline}`;
+        })
+        .catch(err => {
+          document.getElementById("jokeText").textContent = "⚠️ Could not fetch joke. Try again later.";
+          console.error(err);
+        });
+    }
+
+    function getQuote() {
+      fetch("https://api.quotable.io/random")
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("quoteText").textContent = `💡 "${data.content}" — ${data.author}`;
+        })
+        .catch(err => {
+          document.getElementById("quoteText").textContent = "⚠️ Could not fetch quote. Try again later.";
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>
